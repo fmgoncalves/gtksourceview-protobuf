@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language id="protobuf" _name="ProtocolBuffers" version="2.0" _section="Sources">
+	<metadata>
+		<property name="mimetypes">text/x-protobuf</property>
+		<property name="globs">*.proto</property>
+	</metadata>
+	
+	<styles>
+		<style id="comment" _name="Comment" map-to="def:comment"/>
+		<style id="keyword" _name="Keyword" map-to="def:keyword"/>
+		<style id="type" _name="Data Type" map-to="def:type"/>
+		<style id="string" _name="String" map-to="def:string"/>
+		<style id="escaped-character" _name="Escaped Character" map-to="def:special-char"/>
+		<style id="number" _name="Numerical Character" map-to="def:number"/>
+	</styles>
+	<definitions>
+		<context id="protobuf">
+			<include>
+				<context id="comment" style-ref="comment" end-at-line-end="true">
+					<start>\/\/</start>
+				</context>
+				<context id="comment-multiline" style-ref="comment">
+					<start>\/\*</start>
+					<end>\*\/</end>
+				</context>
+				<context id="string" style-ref="string" end-at-line-end="true">
+					<start>"</start>
+					<end>"</end>
+					<include>
+						<context ref="escape"/>
+					</include>
+				</context>
+				<context id="string2" style-ref="string" end-at-line-end="true">
+					<start>'</start>
+					<end>'</end>
+					<include>
+						<context ref="escape"/>
+					</include>
+				</context>
+				<context id="escape" style-ref="escaped-character">
+					<match>\\.</match>
+				</context>
+				<context id="tag">
+					<start>=</start>
+					<end>;</end>
+					<include>
+						<context id="number" style-ref="number">
+							<match>\d+</match>
+<!--							<match>=\d+(\.\d+)?</match>-->
+						</context>
+						<context ref="options"/>
+					</include>
+				</context>
+				<context id="options">
+					<start>\[</start>
+					<end>\]</end>
+					<include>
+						<context ref="string"/>
+						<context ref="string2"/>
+						<context ref="number"/>
+					</include>
+				</context>
+				<context id="keywords" style-ref="keyword">
+					<keyword>message</keyword>
+					<keyword>required</keyword>
+					<keyword>optional</keyword>
+					<keyword>repeated</keyword>
+					<keyword>enum</keyword>
+					<keyword>option</keyword>
+					<keyword>import</keyword>
+					<keyword>extend</keyword>
+					<keyword>package</keyword>
+					<keyword>extensions</keyword>
+					<keyword>max</keyword>
+					<keyword>service</keyword>
+					<keyword>sizeof</keyword>
+					<keyword>rpc</keyword>
+					<keyword>returns</keyword>
+				</context>
+				<context id="types" style-ref="type">
+					<keyword>double</keyword>
+					<keyword>float</keyword>
+					<keyword>int32</keyword>
+					<keyword>int64</keyword>
+					<keyword>uint32</keyword>
+					<keyword>uint64</keyword>
+					<keyword>sint32</keyword>
+					<keyword>sint64</keyword>
+					<keyword>fixed32</keyword>
+					<keyword>fixed64</keyword>
+					<keyword>sfixed32</keyword>
+					<keyword>sfixed64</keyword>
+					<keyword>bool</keyword>
+					<keyword>string</keyword>
+					<keyword>bytes</keyword>
+				</context>
+			</include>
+		</context>
+		
+	</definitions>
+
+</language>
